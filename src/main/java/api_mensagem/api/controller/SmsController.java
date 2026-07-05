@@ -16,7 +16,7 @@ public class SmsController {
     private final SmsService smsService;
 
 
-    @PutMapping
+    @PatchMapping
     public ResponseEntity<SmsDTO> atualizaStatusSms(@RequestBody SmsDTO dto) {
         return ResponseEntity.ok(smsService.atualizaStatusSms(dto));
     }
