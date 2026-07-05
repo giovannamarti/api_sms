@@ -5,6 +5,7 @@ import api_mensagem.api.infrastructure.entities.Sms;
 import api_mensagem.api.infrastructure.exception.ResourceNotFoundException;
 import api_mensagem.api.infrastructure.mapper.SmsConverter;
 import api_mensagem.api.infrastructure.repositories.SmsRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +18,14 @@ public class SmsService {
     private final SmsRepository smsRepository;
     private final SmsConverter smsConverter;
 
-
+    @Transactional
     public SmsDTO atualizaStatusSms(SmsDTO dto) {
         Sms entity = smsRepository.findById(dto.getId()).orElseThrow(() ->
                 new ResourceNotFoundException("Id não encontrado" + dto.getId()));
 
-        Sms sms = smsConverter.toEntity(dto);
-        return smsConverter.toDTO(smsRepository.save(sms));
+        entity.setStatus(dto.getStatus());
+        Sms newEntity = smsRepository.save(entity);
+        return smsConverter.toDTO(newEntity);
     }
 
 
