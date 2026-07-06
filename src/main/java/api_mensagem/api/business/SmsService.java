@@ -33,7 +33,11 @@ public class SmsService {
 
         status = status.trim().toUpperCase();
         List<Sms> listaSms = smsRepository.findByStatus(status);
+
+
+
         return smsConverter.toListSmsDto(listaSms);
+
 
 
     }
